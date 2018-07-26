@@ -25,7 +25,7 @@ class SecurityController extends Controller
 
         return $this->render('security/login.html.twig', [
             'error' => $error,
-            'last_username' => $lastUsername
+            'last_username' => $lastUsername,
         ]);
     }
 
@@ -41,9 +41,15 @@ class SecurityController extends Controller
         $user = new User();
 
         $form = $this->createFormBuilder($user)
-            ->add('username', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add('send', SubmitType::class)
+            ->add('username', TextType::class, [
+                'attr' => ['placeholder' => 'username']
+            ])
+            ->add('password', PasswordType::class , [
+                'attr' => ['placeholder' => 'password']
+            ])
+            ->add('send', SubmitType::class, [
+                'attr' => ['class' => 'btn-primary']
+            ])
             ->getForm();
 
         $form->handleRequest($request);

@@ -3,27 +3,28 @@
 {% block title %}Hello!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    .error { color: red }
-</style>
 
-
-<div class="example-wrapper">
-    <h1>Login Page! ✅</h1>
+<div>
+    <h1>Login! ✅</h1>
     
     {% if error %}
         <span class="error"> {{ error.messageKey }}</span>
     {% endif %}
     
     <form action="{{ path('login') }}" method="post">
+        <div class="form-group">
+            <label for="form_username" class="required">Username</label>
+            <input type="text" required="required" id="form_username" class="form-control" name="_username" value="{{ last_username }}" placeholder="username"  />
+        </div>
 
-        <input type="text" name="_username" value="{{ last_username }}" placeholder="username" />
+        <div class="form-group">
+                <label for="form_password" class="required">Password</label>
+                <input type="password" required="required" id="form_password" class="form-control" name="_password" placeholder="password" />
+        </div>
 
-        <input type="password" name="_password" />
-
-        <input type="submit" value="login" />
+        <div class="form-group">
+            <button class="btn-primary btn" type="submit" value="login">Login</button>
+        </div>
 
     </form>
 </div>
