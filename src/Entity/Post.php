@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,18 +34,20 @@ class Post
     private $body;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $categories = ['general'];
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
-    public function __construct(){
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", mappedBy="posts")
+     */
+    private $categories;
+
+    public function __construct()
+    {
         $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId()
@@ -87,18 +91,6 @@ class Post
         return $this;
     }
 
-    public function getCategories(): ?array
-    {
-        return $this->categories;
-    }
-
-    public function setCategories(array $categories): self
-    {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
     public function getOwner(): ?User
     {
         return $this->owner;
@@ -110,4 +102,33 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->addPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            $category->removePost($this);
+        }
+
+        return $this;
+    }
+
 }

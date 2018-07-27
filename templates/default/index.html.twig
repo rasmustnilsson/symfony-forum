@@ -1,23 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Front-page{% endblock %}
+{% block title %}Front Page{% endblock %}
 
 {% block body %}
 
-<div>
-    <h1>BLOGG! ✅</h1>
-    {% for post in latestPosts %}
-        <div class="row my-2">
-            <div class="card col">
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <span class="card-text">{{ post.owner.username }}</span>
-                    <span class="card-text">{{ post.date|date('Y-m-d') }}</span>
-                    <span class="card-text">{{ post.categories|join(', ') }}</span>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+<div id="categories">
 </div>
 
 {% endblock %}

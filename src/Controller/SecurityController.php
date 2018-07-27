@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -83,4 +85,17 @@ class SecurityController extends Controller
      * @Route("/logout", name="logout")
      */
     public function logout() {}
+
+    /**
+     * @Route("/isAuthenticated", name="isAuthenticated")
+     * @Method({"GET", "POST"})
+     */
+    public function isAuthenticated() {
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            return new JsonResponse(array('isAuthenticated' => true));
+        }
+
+        return new JsonResponse(array('isAuthenticated' => false));
+    }
 }

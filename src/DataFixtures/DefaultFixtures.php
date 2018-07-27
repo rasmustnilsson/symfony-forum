@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Category;
 use joshtronic\LoremIpsum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -21,6 +22,8 @@ class DefaultFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+
+        $this->createCategories($manager);
 
         $users_array = [['admin', ['ROLE_ADMIN']],['user', []]];
 
@@ -44,13 +47,33 @@ class DefaultFixtures extends Fixture
         $manager->flush();
     }
 
-    public function createPost(User $user, $manager)
+    public function createCategories(ObjectManager $manager) {
+        $category_array = [['General', 'General discussion.'], ['Games', 'Everything about games!'], ['Work', 'Everything work related.']];
+    
+        foreach($category_array as $data) {
+            $category = new Category();
+            $category->setName($data[0]);
+            $category->setDescription($data[1]);
+            $manager->persist($category);
+        }
+
+        $manager->flush();
+    }
+    
+    public function createPost(User $user, ObjectManager $manager)
     {
         $lipsum = new LoremIpsum();
 
         $post = new Post();
         $post->setTitle($lipsum->words(rand(3,8)));
         $post->setBody($lipsum->paragraphs(rand(1,4)));
+
+        $category = $manager
+            ->getRepository(Category::class)
+            ->findOneBy(['name' => 'General']);
+
+        $post->addCategory($category);
+        
         $post->setOwner($user);
 
         $manager->persist($post);
