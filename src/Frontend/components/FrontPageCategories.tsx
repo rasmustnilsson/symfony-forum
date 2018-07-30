@@ -39,11 +39,9 @@ export default class FrontPageCatagories extends React.Component<AuthProps, Stat
 
   render() {
     return (
-      <div>
-        <div className="row my-2">
+      <ul className="list-group">
             { this.getCategories() }
-        </div>
-      </div>
+      </ul>
     )
   }
 }

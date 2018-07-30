@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import Navbar from './components/Navbar'
-import FrontPageCatagories from './components/FrontPageCategories'
+import App from './App'
 
 fetch('/isAuthenticated')
-    .then(response => response.json())
+.then(response => response.json())
+    .catch(err => {
+        console.log(err)
+    })
     .then(data => {
-        render(<Navbar auth={data} />,document.getElementById('navbar'));
-        render(<FrontPageCatagories auth={data} />,document.getElementById('categories'));
+        render(<App auth={data} />, document.getElementById('app'));
     })

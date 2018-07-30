@@ -92,4 +92,19 @@ class Category
 
         return $this;
     }
+
+    /**
+     * @return Object[]
+     * returns JSON friendly array of posts
+     */
+    public function getPostsData() 
+    {
+        $posts = [];
+
+        foreach($this->posts as $post) {
+            array_push($posts, $post->getData());
+        }
+
+        return $posts;
+    }
 }

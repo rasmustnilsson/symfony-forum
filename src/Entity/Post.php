@@ -131,4 +131,34 @@ class Post
         return $this;
     }
 
+    /**
+     * @return Object[]
+     * returns JSON friendly object array of $this-post categories names
+     */
+    public function getCategoriesData() 
+    {
+        $categories = [];
+
+        foreach($this->categories as $category) {
+            array_push($categories, $category->getName());
+        }
+
+        return $categories;
+    }
+
+    /**
+     * @return Object
+     * returns JSON friendly object of post data
+     */
+    public function getData()
+    {
+        return [
+            'title' => $this->title,
+            'categories' => $this->getCategoriesData(),
+            'body' => $this->body,
+            'date' => $this->date,
+            'owner' => $this->owner->getUsername()
+        ];
+    }
+
 }

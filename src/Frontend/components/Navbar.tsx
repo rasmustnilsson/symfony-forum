@@ -1,16 +1,18 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
+
 
 export default (props: AuthProps) => {
 
     function getLinks() {
 
-        const links:JSX.Element[] = [<a className="nav-item nav-link active" key="0" href="/">Home <span className="sr-only">(current)</span></a>]
+        const links:JSX.Element[] = [<Link className="nav-item nav-link active" key="0" to="/">Home <span className="sr-only">(current)</span></Link>]
         if(props.auth.isAuthenticated) {
             links.push(<a className="nav-item nav-link" key={links.length} href="/dashboard">Dashboard</a>)
             links.push(<a className="nav-item nav-link" key={links.length} href="/logout">Logout</a>)
         } else {
-            links.push(<a className="nav-item nav-link" key={links.length} href="/login">Login</a>)
-            links.push(<a className="nav-item nav-link" key={links.length} href="/signup">Signup</a>)
+            links.push(<Link className="nav-item nav-link" key={links.length} to="/login">Login</Link>)
+            links.push(<Link className="nav-item nav-link" key={links.length} to="/signup">Signup</Link>)
         }
 
         return links

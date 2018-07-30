@@ -35,10 +35,11 @@ class DefaultFixtures extends Fixture
                 $user->addRole($role);
             }
             
-            $user->setPassword($this->encoder->encodePassword($user, 'class'));
-            for($i = 0; $i < 4; $i++) {
-                $this->createPost($user, $manager);
-            }
+            $user->setPassword($this->encoder, 'class');
+            $this->createPost($user, 'General',$manager);
+            $this->createPost($user, 'Games',$manager);
+            $this->createPost($user, 'Work',$manager);
+
 
             $manager->persist($user);
 
@@ -60,7 +61,7 @@ class DefaultFixtures extends Fixture
         $manager->flush();
     }
     
-    public function createPost(User $user, ObjectManager $manager)
+    public function createPost(User $user, String $catagory, ObjectManager $manager)
     {
         $lipsum = new LoremIpsum();
 
@@ -70,7 +71,7 @@ class DefaultFixtures extends Fixture
 
         $category = $manager
             ->getRepository(Category::class)
-            ->findOneBy(['name' => 'General']);
+            ->findOneBy(['name' => $catagory]);
 
         $post->addCategory($category);
         

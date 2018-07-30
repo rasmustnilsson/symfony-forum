@@ -1,14 +1,14 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 
 export default (props: Category) => {
   return (
     <div>
-        <div className="card col">
-            <div className="card-body">
-                <h5 className="card-title">{ props.name }</h5>
-                <span className="card-text">{ props.description }</span>
-            </div>
-        </div>
+        <li className="list-group-item">
+            <Link to={'/category/' + props.name} className="card-title">{ props.name }</Link>&nbsp;
+            <span className="card-text">{ props.description }</span>&nbsp;
+            <span className="card-text">{ props.postCount }</span>
+        </li>
     </div>
   )
 }

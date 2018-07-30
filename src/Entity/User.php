@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -68,9 +69,9 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(UserPasswordEncoder $encoder, string $password): self
     {
-        $this->password = $password;
+        $this->password = $encoder->encodePassword($this, $password);
 
         return $this;
     }

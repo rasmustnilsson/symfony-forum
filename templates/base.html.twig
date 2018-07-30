@@ -12,11 +12,9 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <div id="navbar"></div>
-        <div class="container pt-4 mt-4">
-            {% block body %}{% endblock %}
-            {% block javascripts %}{% endblock %}
-            <script src="/js/main.bundle.js"></script>
-        </div>
+        <div id="app"></div>
+        <div class="container pt-4 mt-4">{% block body %}{% endblock %}</div>
+        {% block javascripts %}{% endblock %}
+        <script src="/js/main.bundle.js"></script>
     </body>
 </html>
