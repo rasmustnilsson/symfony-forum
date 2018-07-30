@@ -154,6 +154,7 @@ class Post
     {
         return [
             'title' => $this->title,
+            'id' => $this->id,
             'categories' => $this->getCategoriesData(),
             'body' => $this->body,
             'date' => $this->date,

@@ -1,14 +1,14 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom'
 
-interface Props {}
 interface State {
     posts: any[]
 }
 
 
-export default class Categories extends React.Component<Props, State, {}> {
+export default class CategoryPage extends React.Component<ParamsProps, State, {}> {
 
-    constructor(props: Props) {
+    constructor(props: ParamsProps) {
         super(props);
         this.state = {
             posts: []
@@ -16,7 +16,7 @@ export default class Categories extends React.Component<Props, State, {}> {
     }
 
     componentWillMount() {
-        fetch('/getPostsFromCategory/General', { method: 'POST' })
+        fetch(`/getPostsFromCategory/${this.props.match.params.id}`, { method: 'POST' })
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -32,7 +32,7 @@ export default class Categories extends React.Component<Props, State, {}> {
             <ul className="list-group">
                 {
                     this.state.posts.map((post, index) => {
-                        return <li key={index} className="list-group-item">{post.title}</li>
+                        return <li key={index} className="list-group-item"><Link to={'/post/' + post.id}>{post.title}</Link></li>
                     })
                 }
             </ul>

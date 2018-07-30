@@ -42,4 +42,11 @@ class DataController extends Controller
 
         return new JsonResponse($category->getPostsData());
     }
+
+    public function getPost($id = '') {
+        $repository = $this->getDoctrine()->getRepository(Post::class);
+        $post = $repository->find($id);
+
+        return new JsonResponse($post->getData());
+    }
 }

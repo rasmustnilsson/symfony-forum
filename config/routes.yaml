@@ -6,3 +6,8 @@ getPostsFromCategory:
     path: /getPostsFromCategory/{category}
     controller: App\Controller\DataController::getPostsFromCategory
     methods:  [POST]
+
+getPost:
+    path: /getPost/{id}
+    controller: App\Controller\DataController::getPost
+    methods:  [GET, POST]

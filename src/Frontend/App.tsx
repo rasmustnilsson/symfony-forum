@@ -2,7 +2,8 @@ import * as React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import FrontPageCategories from './components/FrontPageCategories'
 import Navbar from './components/Navbar'
-import Categories from './components/Categories'
+import CategoryPage from './components/CategoryPage'
+import PostPage from './components/PostPage'
 import Login from './components/Login'
 import Signup from './components/Signup'
 
@@ -15,7 +16,8 @@ export default (props: AuthProps) => {
           <Route exact={true} path="/" component={FrontPageCategories}/>
           <Route exact={true} path="/login" component={Login}/>
           <Route exact={true} path="/signup" component={Signup}/>
-          <Route path="/category" component={Categories}/>
+          <Route path="/category/:id" component={CategoryPage}/>
+          <Route path="/post/:id" component={PostPage}/>
         </div>
         </React.Fragment>
       </BrowserRouter>

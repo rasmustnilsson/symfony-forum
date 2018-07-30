@@ -1,5 +1,6 @@
 import * as React from 'react'
 import CategoryCard from './CategoryCard'
+import { Category } from '../classes'
 
 interface State {
   categories: Category[]
