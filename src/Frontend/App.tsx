@@ -6,20 +6,23 @@ import CategoryPage from './components/CategoryPage'
 import PostPage from './components/PostPage'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Dashboard from './components/Dashboard'
+import ProtectedRoute from './components/ProtectedRoute'
 
 export default (props: AuthProps) => {
   return (
     <BrowserRouter>
-        <React.Fragment>
-        <Navbar auth={ props.auth } />
-        <div className="container pt-4 mt-4">
-          <Route exact={true} path="/" component={FrontPageCategories}/>
-          <Route exact={true} path="/login" component={Login}/>
-          <Route exact={true} path="/signup" component={Signup}/>
-          <Route path="/category/:id" component={CategoryPage}/>
-          <Route path="/post/:id" component={PostPage}/>
-        </div>
-        </React.Fragment>
-      </BrowserRouter>
+      <React.Fragment>
+      <Navbar auth={ props.auth } />
+      <div className="container pt-4 mt-4">
+        <Route exact={true} path="/" component={FrontPageCategories}/>
+        <Route exact={true} path="/login" component={Login}/>
+        <Route exact={true} path="/signup" component={Signup}/>
+        <ProtectedRoute auth={ props.auth } exact={true} path="/Dashboard" protectedProp={ Dashboard }/>
+        <Route path="/category/:id" component={CategoryPage}/>
+        <Route path="/post/:id" component={PostPage}/>
+      </div>
+      </React.Fragment>
+    </BrowserRouter>
   )
 }

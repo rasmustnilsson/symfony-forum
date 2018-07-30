@@ -1,6 +1,12 @@
 declare interface AuthProps {
     auth: {
         isAuthenticated: boolean
+        user: {
+            username: string,
+            numberOfPosts: number
+            numberOfComments: number
+            roles: Array<string>
+        }
     }
 }
 

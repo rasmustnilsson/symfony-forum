@@ -185,4 +185,17 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return Object
+     * returns object with user data
+     */
+    public function getData() {
+        return [
+            'username' => $this->username,
+            'roles' => $this->roles,
+            'numberOfPosts' => count($this->posts),
+            'numberOfComments' => count($this->comments),
+        ];
+    }
+
 }

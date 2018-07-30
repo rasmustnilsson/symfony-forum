@@ -91,9 +91,9 @@ class SecurityController extends Controller
     public function isAuthenticated() {
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            return new JsonResponse(array('isAuthenticated' => true));
+            return new JsonResponse(['isAuthenticated' => true, 'user' => $this->getUser()->getData()]);
         }
 
-        return new JsonResponse(array('isAuthenticated' => false));
+        return new JsonResponse(['isAuthenticated' => false]);
     }
 }

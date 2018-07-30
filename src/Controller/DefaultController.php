@@ -13,6 +13,7 @@ class DefaultController extends Controller
      * @Route("/", name="default")
      * @Route("/category/{category}", name="category")
      * @Route("/post/{post}", name="post")
+     * @Route("/dashboard", name="dashboard")
      */
     public function index()
     {   
