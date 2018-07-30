@@ -47,6 +47,8 @@ class DataController extends Controller
         $repository = $this->getDoctrine()->getRepository(Post::class);
         $post = $repository->find($id);
 
+        if(!$post) return new JsonResponse(['err' => 'post doesn\'t exist']);
+
         return new JsonResponse($post->getData());
     }
 }

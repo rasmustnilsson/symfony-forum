@@ -44,10 +44,16 @@ class Post
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="parentPost", orphanRemoval=true)
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId()
@@ -158,8 +164,53 @@ class Post
             'categories' => $this->getCategoriesData(),
             'body' => $this->body,
             'date' => $this->date,
+            'comments' => $this->getCommentsData(),
             'owner' => $this->owner->getUsername()
         ];
     }
 
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setParentPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getParentPost() === $this) {
+                $comment->setParentPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Array
+     * returns array of comments
+     */
+    public function getCommentsData() 
+    {
+        $comments = [];
+        foreach($this->comments as $comment) {
+            array_push($comments, $comment->getData());
+        }
+
+        return $comments;
+    }
 }

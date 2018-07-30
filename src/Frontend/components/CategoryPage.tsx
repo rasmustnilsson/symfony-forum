@@ -29,6 +29,9 @@ export default class CategoryPage extends React.Component<ParamsProps, State, {}
 
     render() {
         return (
+            <React.Fragment>
+            <h1>{ this.props.match.params.id }</h1>
+
             <ul className="list-group">
                 {
                     this.state.posts.map((post, index) => {
@@ -36,7 +39,7 @@ export default class CategoryPage extends React.Component<ParamsProps, State, {}
                     })
                 }
             </ul>
-
+            </React.Fragment>
         )
     }
 }

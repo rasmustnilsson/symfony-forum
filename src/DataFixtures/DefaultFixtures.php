@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Comment;
 use App\Entity\Category;
 use joshtronic\LoremIpsum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -12,20 +13,22 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultFixtures extends Fixture
 {
+    private $lipsum;
 
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
+        $lipsum = new LoremIpsum();
+        $this->lipsum = $lipsum;
         $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager)
     {
+        $users_array = [['admin', ['ROLE_ADMIN']],['user', []]];
 
         $this->createCategories($manager);
-
-        $users_array = [['admin', ['ROLE_ADMIN']],['user', []]];
 
         foreach ($users_array as $item) {
             $user = new User();
@@ -36,19 +39,22 @@ class DefaultFixtures extends Fixture
             }
             
             $user->setPassword($this->encoder, 'class');
-            $this->createPost($user, 'General',$manager);
-            $this->createPost($user, 'Games',$manager);
-            $this->createPost($user, 'Work',$manager);
-
-
             $manager->persist($user);
+            $manager->flush();
+
+            $this->createPost($user, 'General', $manager);
+            $this->createPost($user, 'Games', $manager);
+            $this->createPost($user, 'Work', $manager);
+
+            $this->commentOnAllPosts($manager, $user);
+
 
         }
 
-        $manager->flush();
     }
 
-    public function createCategories(ObjectManager $manager) {
+    public function createCategories(ObjectManager $manager)
+    {
         $category_array = [['General', 'General discussion.'], ['Games', 'Everything about games!'], ['Work', 'Everything work related.']];
     
         foreach($category_array as $data) {
@@ -63,20 +69,34 @@ class DefaultFixtures extends Fixture
     
     public function createPost(User $user, String $catagory, ObjectManager $manager)
     {
-        $lipsum = new LoremIpsum();
 
         $post = new Post();
-        $post->setTitle($lipsum->words(rand(3,8)));
-        $post->setBody($lipsum->paragraphs(rand(1,4)));
+        $post->setTitle($this->lipsum->words(rand(3,8)));
+        $post->setBody($this->lipsum->paragraphs(rand(1,2)));
 
         $category = $manager
             ->getRepository(Category::class)
             ->findOneBy(['name' => $catagory]);
 
         $post->addCategory($category);
-        
         $post->setOwner($user);
-
         $manager->persist($post);
+        $manager->flush();
+    }
+
+    public function commentOnAllPosts(ObjectManager $manager, User $user)
+    {
+        $posts = $manager
+            ->getRepository(Post::class)
+            ->FindAll();
+
+        foreach($posts as $post) {
+            $comment = new Comment();
+            $comment->setOwner($user);
+            $comment->setBody($this->lipsum->sentences(rand(2,4)));
+            $comment->setParentPost($post);
+            $manager->persist($comment);
+            $manager->flush();
+        }
     }
 }

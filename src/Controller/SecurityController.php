@@ -39,7 +39,7 @@ class SecurityController extends Controller
 
         if ($request->isMethod('post')) {
             // if data is missing (can be improved to validate input data)
-            if($username == null || $password == null) {
+            if(!$username || !$password) {
                 $response->headers->setCookie(new Cookie('signup-error', 'error signing up!', 0, '/signup', null, false, false));
                 $response->headers->setCookie(new Cookie('lastUsername', $username, 0, '/signup', null, false, false));
                 return $response;
@@ -49,7 +49,7 @@ class SecurityController extends Controller
             $user = $repository->findOneBy(['username' => $username]);
 
             // if user already exists
-            if($user != null) {
+            if($user) {
                 $response->headers->setCookie(new Cookie('signup-error', 'username already exists!', 0, '/signup', null, false, false));
                 $response->headers->setCookie(new Cookie('lastUsername', $username, 0, '/signup', null, false, false));
                 return $response;

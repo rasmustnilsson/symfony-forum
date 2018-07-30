@@ -1,3 +1,9 @@
+export class Comment {
+    owner: string = ''
+    body: string = ''
+    date: any = ''
+}
+
 export class Category {
     name: string
     description: string
@@ -11,4 +17,5 @@ export class Post {
     owner: string = ''
     date: any = ''
     categories: Category[] = []
+    comments: Comment[] = []
 }

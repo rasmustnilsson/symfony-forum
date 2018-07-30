@@ -20,7 +20,7 @@ export default () => {
 
             <div className="form-group">
                 <label htmlFor="form_password" className="required">Password</label>
-                <input type="password" id="form_password" className="form-control" name="_password" placeholder="password" />
+                <input type="password" id="form_password" required={true} className="form-control" name="_password" placeholder="password" />
             </div>
 
             <div className="form-group">
