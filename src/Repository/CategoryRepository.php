@@ -20,7 +20,7 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Category[] Returns an array of Category ids
+     * @return Id[] Returns an array of Category ids
      */
     
     public function getAll()
@@ -32,6 +32,20 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
 
         return $ids;
+    }
+
+    /**
+     * @return Name[] Returns an array of Category names
+     */
+    
+    public function getNames()
+    {
+        $names = $this->createQueryBuilder('c')
+            ->select('c.name')
+            ->getQuery()
+            ->getResult();
+
+        return $names;
     }
 
     /**

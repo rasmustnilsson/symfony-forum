@@ -29,7 +29,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="categories")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="categories", cascade={"persist"})
      */
     private $posts;
 

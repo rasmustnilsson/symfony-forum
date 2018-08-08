@@ -14,6 +14,7 @@ class DefaultController extends Controller
      * @Route("/category/{category}", name="category")
      * @Route("/post/{post}", name="post")
      * @Route("/dashboard", name="dashboard")
+     * @Route("/create", name="createPostPage")
      */
     public function index()
     {   

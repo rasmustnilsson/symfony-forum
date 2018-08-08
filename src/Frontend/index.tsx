@@ -8,6 +8,5 @@ fetch('/isAuthenticated')
         console.log(err)
     })
     .then(data => {
-        console.log(data)
         render(<App auth={data} />, document.getElementById('app'));
     })

@@ -9,6 +9,7 @@ export default (props: AuthProps) => {
         const links:JSX.Element[] = [<Link className="nav-item nav-link active" key="0" to="/">Home <span className="sr-only">(current)</span></Link>]
         if(props.auth.isAuthenticated) {
             links.push(<Link className="nav-item nav-link" key={links.length} to="/dashboard">Dashboard</Link>)
+            links.push(<Link className="nav-item nav-link" key={links.length} to="/create">Create Post</Link>)
             links.push(<a className="nav-item nav-link" key={links.length} href="/logout">Logout</a>)
         } else {
             links.push(<Link className="nav-item nav-link" key={links.length} to="/login">Login</Link>)
