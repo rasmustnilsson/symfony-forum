@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Comment;
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +55,8 @@ class DataController extends Controller
         return new JsonResponse($category->getPostsData());
     }
 
-    public function getPost($id = '') {
+    public function getPost($id = '')
+    {
         $repository = $this->getDoctrine()->getRepository(Post::class);
         $post = $repository->find($id);
 
@@ -66,9 +68,10 @@ class DataController extends Controller
     /**
      * @Route("/createPost", name="createPost", methods={"POST"})
      */
-    public function createPost(Request $request) {
+    public function createPost(Request $request)
+    {
 
-        $title = $request->request->get('title', 'default value');
+        $title = $request->request->get('title');
         $categoryName = $request->request->get('category');
         $body = $request->request->get('body');
 
@@ -88,5 +91,31 @@ class DataController extends Controller
         $entityManager->flush();
 
         return new JsonResponse([ 'id' => $post->getId() ]);
+    }
+
+    /**
+     * @Route("/submitComment", name="submitComment", methods={"PoST"})
+     */
+    public function submitComment(Request $request)
+    {
+
+        $commentText = $request->request->get('comment');
+        $id = $request->request->get('post');
+        
+        $repository = $this->getDoctrine()->getRepository(Post::class);
+        $post = $repository->find($id);
+
+        $user = $this->getUser();
+
+        $comment = new Comment();
+        $comment->setParentPost($post);
+        $comment->setBody($commentText);
+        $comment->setOwner($user);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return new JsonResponse([ 'comment' => $commentText,  'user' => $user->getUsername(), 'date' => $comment->getDate() ]);
     }
 }

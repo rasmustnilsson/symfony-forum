@@ -54,7 +54,7 @@ export default class CreatePostPage extends React.Component<{}, State> {
     return (
       <div>
         <h1>Create Post</h1>
-        <form action="/createPost" method="post" onSubmit={ this.handleSubmit }>
+        <form onSubmit={ this.handleSubmit }>
         
         <div className="form-group">
             <label htmlFor="title">Title</label>
