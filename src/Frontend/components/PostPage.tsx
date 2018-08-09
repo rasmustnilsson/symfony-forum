@@ -1,64 +1,49 @@
 import * as React from 'react'
 
-import { Post, Comment } from '../classes'
 import CommentForm from './CommentForm'
+import { State as PostState } from '../reducers/PostPageReducer'
 
-
-interface State {
-    postId: string
-    post: Post
-    postExists: boolean
-    postLoaded: boolean
+interface Props extends ParamsProps {
+    postPage: PostState
+    setNoPost(): void
+    addCommentAction(comment: Commentable): void
+    loadPostInfo(post: Postable): void
 }
 
-export default class PostPage extends React.Component<ParamsProps, State, {}> {
+export default class PostPage extends React.Component<Props, {}, {}> {
     
-    constructor(props: ParamsProps) {
+    constructor(props: Props) {
         super(props);
-
-        this.state = {
-            postId: this.props.match.params.id,
-            postExists: true,
-            postLoaded: false,
-            post: new Post()
-        }
 
         this.addComment = this.addComment.bind(this)
 
-        fetch(`/getPost/${this.state.postId}`, { method: 'post' })
+        fetch(`/getPost/${this.props.match.params.id}`, { method: 'post' })
             .then(response => response.json())
-            .then(data => {
-                if(data.err) return this.setState({ ...this.state, postExists: false })
-                this.setState({ post: data, postLoaded: true })
-            }) 
+            .then((data) => {
+                if(data.err) return this.props.setNoPost()
+                this.props.loadPostInfo(data)
+            })
     }
 
-    addComment(comment: string, user: string, date: object) {
-
-        const post = this.state.post
-        post.comments.push({ body: comment, owner: user, date: date })
-
-        this.setState({ post: post })
-
+    addComment(comment: Commentable) {
+        this.props.addCommentAction(comment)
     }
 
     render() {
-        if(!this.state.postExists) return <pre>post doesn't exist</pre>;
-        else if(!this.state.postLoaded) return null
+        if(!this.props.postPage.postExists) return <pre>post doesn't exist</pre>;
+        else if(!this.props.postPage.postLoaded) return null
         else return (
             <div>
-                <h1>{ this.state.post.title }</h1>
-                <p>Owner: { this.state.post.owner }</p>
-                <p>Date: { this.state.post.date.date }</p>
-                <p>{ this.state.post.body }</p>
-                <CommentForm onchange={ this.addComment } postId={ this.props.match.params.id } />
+                <h1>{ this.props.postPage.title }</h1>
+                <p>Owner: { this.props.postPage.owner }</p>
+                <p>Date: { this.props.postPage.date.date }</p>
+                <p>{ this.props.postPage.body }</p>
+                <CommentForm addComment={ this.addComment } postId={ this.props.match.params.id } />
                 <h3>Comments: </h3>
                 <ul>
-                    {
-                        this.state.post.comments.map((comment, index) => {
-                            return <li key={ index }><p>{ comment.owner }</p><p> { comment.body }</p></li>
-                        })
-                    }
+                    { this.props.postPage.comments.map((comment) => {
+                            return <li key={ comment.id }><p>{ comment.owner }, { comment.date.date }</p><p> { comment.body }</p></li>
+                        }).reverse() }
                 </ul>
             </div>
         )

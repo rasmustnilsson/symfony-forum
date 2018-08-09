@@ -5,7 +5,7 @@ declare interface AuthProps {
             username: string,
             numberOfPosts: number
             numberOfComments: number
-            roles: Array<string>
+            roles: string[]
         }
     }
 }
@@ -22,4 +22,22 @@ declare interface ParamsProps {
             id: string
         }
     }
+}
+
+declare interface Commentable {
+    owner: string
+    body: string
+    date: any
+    id: string
+}
+
+declare interface Postable {
+    postExists: boolean
+    postLoaded: boolean
+    id: string
+    title: string
+    date: any
+    owner: string
+    body: string
+    categories: Categoryable[]
 }

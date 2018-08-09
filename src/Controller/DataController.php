@@ -116,6 +116,11 @@ class DataController extends Controller
         $entityManager->persist($comment);
         $entityManager->flush();
 
-        return new JsonResponse([ 'comment' => $commentText,  'user' => $user->getUsername(), 'date' => $comment->getDate() ]);
+        return new JsonResponse([
+            'body' => $commentText,
+            'owner' => $user->getUsername(),
+            'date' => $comment->getDate(),
+            'id' => $comment->getId()
+        ]);
     }
 }

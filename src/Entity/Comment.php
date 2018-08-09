@@ -105,6 +105,8 @@ class Comment
         return [
             'owner' => $this->owner->getUsername(),
             'body' => $this->body,
+            'date' => $this->date,
+            'id' => $this->id,
         ];
     }
 }

@@ -2,26 +2,27 @@ import * as React from 'react'
 
 interface Props {
     postId: string
-    onchange(comment: string, user: string, date: object): void;
+    addComment(comment: Commentable): void
 }
 
 export default class CommentForm extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props);
-        
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit(e: any) {
         e.preventDefault()
+        const form = new FormData(e.target)
+        e.target.reset()
         fetch('/submitComment', {
             method: 'post',
-            body: new FormData(e.target)
+            body: form
         })
         .then(response => response.json())
         .then(data => {
-            this.props.onchange(data.comment, data.user, data.date)
+            this.props.addComment(data)
         })
     }
 
