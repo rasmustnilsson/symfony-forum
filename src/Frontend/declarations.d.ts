@@ -1,12 +1,10 @@
 declare interface AuthProps {
-    auth: {
-        isAuthenticated: boolean
-        user: {
-            username: string,
-            numberOfPosts: number
-            numberOfComments: number
-            roles: string[]
-        }
+    isAuthenticated: boolean
+    user: {
+        username: string,
+        numberOfPosts: number
+        numberOfComments: number
+        roles: string[]
     }
 }
 

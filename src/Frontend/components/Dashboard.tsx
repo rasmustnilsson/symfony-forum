@@ -1,8 +1,7 @@
 import * as React from 'react'
 
 export default (props: AuthProps) => {
-
-  const { username, roles, numberOfPosts, numberOfComments  } = props.auth.user
+  const { username, roles, numberOfPosts, numberOfComments } = props.user
 
   return (
     <div>

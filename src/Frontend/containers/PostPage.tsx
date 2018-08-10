@@ -4,8 +4,8 @@ import PostPage from '../components/PostPage'
 import { AddComment, loadPostInfo, NoPost } from '../actions/PostPage'
 
 const mapStateToProps = (state: State) => ({
-    ...state
-  })
+    ...state.postPage
+})
 
 const mapDispatchToProps = {
     addCommentAction: AddComment,
